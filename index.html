@@ -30,6 +30,74 @@
       padding:32px 20px;
       display:flex;
       justify-content:center;
+      transition: background-color 240ms ease, color 240ms ease;
+    }
+
+    /* Transition für Karten/Kartenboxen und Kartenkacheln */
+    .site, section, .intro, .card, .map {
+      transition: background-color 240ms ease, box-shadow 240ms ease, color 240ms ease;
+    }
+
+    .site{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:24px;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle{
+      margin-left:auto;
+      background:var(--card);
+      color:var(--text);
+      border:0;
+      padding:8px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-size:0.95rem;
+      transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease;
+    }
+    .theme-toggle:focus{outline:3px solid rgba(11,95,255,0.18); outline-offset:3px}
+    .theme-toggle:active{transform:translateY(1px)}
+    .theme-toggle .label{display:none} /* visuell ausblenden - Icon reicht meist; anpassen falls Text gewünscht */
+
+    /* Dark / Night theme overrides */
+    body[data-theme="dark"]{
+      --bg: #0b0d10;
+      --card: #0f1418;
+      --text: #e6eef8;
+      --muted: #9fb0c6;
+      --accent: #4ea0ff;
+      --shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      padding:32px 20px;
+      display:flex;
+      justify-content:center;
     }
 
     .site{
@@ -178,12 +246,38 @@
     }
     .map + figcaption{margin-top:8px;color:var(--muted);font-size:0.9rem}
 
-    /* Responsive */
+    /* Tabs */
+    .tabs{
+      display:inline-flex;
+      gap:8px;
+      margin-bottom:18px;
+    }
+    .tab{
+      background:var(--card);
+      color:var(--text);
+      border:0;
+      padding:8px 12px;
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-weight:600;
+    }
+    .tab[aria-selected="true"]{
+      background:linear-gradient(180deg,var(--accent), color-mix(in srgb, var(--accent) 65%, transparent));
+      color:white;
+      box-shadow:0 10px 30px rgba(11,95,255,0.12);
+    }
+    .tab:focus{outline:3px solid rgba(11,95,255,0.18); outline-offset:3px}
+
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
     @media (max-width:900px){
       .gallery{grid-template-columns:repeat(2,1fr)}
       .intro{flex-direction:column;align-items:center;text-align:center}
       .intro figure{flex:0 0 180px; width:180px;height:180px}
       .maps-grid{grid-template-columns:1fr}
+      .tabs{width:100%; justify-content:space-between}
     }
     @media (max-width:560px){
       .gallery{grid-template-columns:1fr}
@@ -209,10 +303,25 @@
           <p>Geoinformatik & Vermessung · Datenvisualisierung · Kartographie</p>
         </div>
       </div>
+
+      <!-- Theme toggle button (neu) -->
+      <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Wechseln zwischen hellem und dunklem Modus" title="Hell / Nacht">
+        <span class="icon" aria-hidden="true">🌞</span>
+        <span class="label">Modus</span>
+      </button>
     </header>
 
-    <main>
-      <section class="intro" aria-labelledby="intro-title">
+    <!-- Tab controls -->
+    <div class="tabs" role="tablist" aria-label="Hauptnavigation">
+      <button class="tab" role="tab" data-panel="about" aria-selected="true">About</button>
+      <button class="tab" role="tab" data-panel="news" aria-selected="false">News</button>
+      <button class="tab" role="tab" data-panel="projects" aria-selected="false">Projects</button>
+    </div>
+
+    <!-- Tab panels: About (Intro + Stationen), News (Kurzprojekte/Links), Projects (Karten) -->
+    <div id="tab-panels">
+      <section id="about" class="tab-panel active" aria-labelledby="intro-title">
+        <!-- About: Intro + Stationen (reused content) -->
         <figure>
           <img src="assets/me.jpg" alt="Portraitfoto">
         </figure>
@@ -221,10 +330,8 @@
           <p>Seit Oktober 2023 studiere ich Geoinformatik und Vermessung an der Hochschule Mainz. Aktuell bin ich im 5. Semester und arbeite gern an räumlichen Daten, Karten und interaktiven Visualisierungen.</p>
           <p>Von 2020 bis 2023 habe ich eine Ausbildung zur Vermessungstechnikerin bei TPI Vermessung absolviert. Dabei konnte ich umfangreiche Erfahrungen auf internationalen Flughäfen und großen Baustellen sammeln.</p>
         </div>
-      </section>
 
-      <section aria-labelledby="stations-title">
-        <h2 id="stations-title" style="margin:0 0 12px 0;font-size:1rem">Stationen</h2>
+        <h2 id="stations-title" style="margin:24px 0 12px 0;font-size:1rem">Stationen</h2>
         <div class="table-wrap">
           <table role="table" aria-label="Stationen">
             <caption style="caption-side:top;text-align:left;padding-bottom:8px;color:var(--muted);font-size:0.9rem">Ausgewählte Stationen</caption>
@@ -248,34 +355,8 @@
         </div>
       </section>
 
-      <!-- Karten zuerst, dann die Galerie -->
-      <section aria-labelledby="maps-title">
-        <h2 id="maps-title" style="margin:0 0 12px 0;font-size:1rem">Karten: Langen · Dreieich · Wetzlar · Mainz</h2>
-
-        <div class="maps-grid" role="list">
-          <figure role="listitem">
-            <div id="map-langen" class="map" aria-label="Karte Langen"></div>
-            <figcaption>Langen (Hessen)</figcaption>
-          </figure>
-
-          <figure role="listitem">
-            <div id="map-dreieich" class="map" aria-label="Karte Dreieich"></div>
-            <figcaption>Dreieich</figcaption>
-          </figure>
-
-          <figure role="listitem">
-            <div id="map-wetzlar" class="map" aria-label="Karte Wetzlar"></div>
-            <figcaption>Wetzlar</figcaption>
-          </figure>
-
-          <figure role="listitem">
-            <div id="map-mainz" class="map" aria-label="Karte Mainz"></div>
-            <figcaption>Mainz</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section aria-labelledby="gallery-title">
+      <section id="news" class="tab-panel" aria-labelledby="gallery-title">
+        <!-- News: Kurzprojekte / Links (reused gallery content) -->
         <h2 id="gallery-title" style="margin:0 0 12px 0;font-size:1rem">Kurzprojekte / Links</h2>
         <div class="gallery">
           <a class="card" href="https://example.com/projekt-karte" target="_blank" rel="noopener noreferrer">
@@ -304,68 +385,171 @@
         </div>
       </section>
 
-    </main>
+      <section id="projects" class="tab-panel" aria-labelledby="maps-title">
+        <!-- Projects: Karten (reused maps section) -->
+        <h2 id="maps-title" style="margin:0 0 12px 0;font-size:1rem">Karten: Langen · Dreieich · Wetzlar · Mainz</h2>
+
+        <div class="maps-grid" role="list">
+          <figure role="listitem">
+            <div id="map-langen" class="map" aria-label="Karte Langen"></div>
+            <figcaption>Langen (Hessen)</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-dreieich" class="map" aria-label="Karte Dreieich"></div>
+            <figcaption>Dreieich</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-wetzlar" class="map" aria-label="Karte Wetzlar"></div>
+            <figcaption>Wetzlar</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-mainz" class="map" aria-label="Karte Mainz"></div>
+            <figcaption>Mainz</figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
   </div>
 
   <!-- Leaflet JS (CDN) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // Leaflet initialisierung — mehrere Orte, Dreieich/Wetzlar/Mainz per Nominatim geokodiert
-    (function(){
-      const fixedPlaces = {
-        'map-langen': {name: 'Langen (Hessen)', coords: [49.9911, 8.6626], zoom: 13}
+    // Expose Leaflet map initialization as a function so it can be run when Projects tab is opened
+    function initMaps(){
+      const fixed = {
+        'map-langen': { name: 'Langen (Hessen)', coords: [49.9911, 8.6626], zoom: 13 }
       };
 
-      const geocodePlaces = [
-        { id: 'map-dreieich', address: 'Otto-Hahn-Straße 46, Dreieich, Germany', popup: 'Dreieich — Otto‑Hahn‑Straße 46', zoom: 18 },
-        { id: 'map-wetzlar', address: 'Werner-von-Siemens-Schule, Wetzlar, Germany', popup: 'Wetzlar — Werner‑von‑Siemens‑Schule', zoom: 17 },
-        { id: 'map-mainz', address: 'Lucy-Hillebrand-Straße 2, Mainz, Germany', popup: 'Mainz — Hochschule (Lucy‑Hillebrand‑Straße 2)', zoom: 16 }
+      const toGeocode = [
+        { id: 'map-dreieich', address: 'Otto-Hahn-Straße 46, Dreieich, Germany', fallback: [50.0595, 8.7220], zoom: 17, name: 'Dreieich — Otto‑Hahn‑Straße 46' },
+        { id: 'map-wetzlar',  address: 'Werner-von-Siemens-Schule, Wetzlar, Germany', fallback: [50.5565, 8.5010], zoom: 16, name: 'Wetzlar — Werner‑von‑Siemens‑Schule' },
+        { id: 'map-mainz',    address: 'Lucy-Hillebrand-Straße 2, Mainz, Germany', fallback: [49.9929, 8.2473], zoom: 15, name: 'Mainz — Hochschule (Lucy‑Hillebrand‑Straße 2)' }
       ];
 
       const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
       const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-      // Erstelle Karten für feste Orte
-      Object.keys(fixedPlaces).forEach(id => {
-        const cfg = fixedPlaces[id];
-        const map = L.map(id, {attributionControl: false}).setView(cfg.coords, cfg.zoom);
-        L.tileLayer(tileUrl, {attribution}).addTo(map);
-        L.marker(cfg.coords).addTo(map).bindPopup(cfg.name);
-        L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
+      window._leafletMaps = window._leafletMaps || {};
+
+      function createMap(id, center, zoom, popupText){
+        const el = document.getElementById(id);
+        if(!el){ console.warn('Leaflet: Kein Element mit id', id); return; }
+        // if already created, setView and update marker
+        if(window._leafletMaps[id]){
+          try{ window._leafletMaps[id].setView(center, zoom); }catch(e){}
+          return;
+        }
+        const map = L.map(id, { attributionControl: false }).setView(center, zoom || 13);
+        L.tileLayer(tileUrl, { attribution }).addTo(map);
+        L.marker(center).addTo(map).bindPopup(popupText || '').openPopup();
+        L.control.attribution({ prefix: false }).addAttribution(attribution).addTo(map);
+        window._leafletMaps[id] = map;
+      }
+
+      Object.keys(fixed).forEach(id => {
+        const cfg = fixed[id];
+        createMap(id, cfg.coords, cfg.zoom, cfg.name);
       });
 
-      // Utility: Geocode mit Nominatim und Map initialisieren
-      function geocodeAndCreateMap(item) {
+      toGeocode.forEach(item => {
         const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(item.address);
         fetch(url, { headers: { 'Accept': 'application/json' } })
           .then(res => res.json())
           .then(data => {
-            let latlon;
-            if (Array.isArray(data) && data.length > 0) {
-              latlon = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            if(Array.isArray(data) && data.length > 0){
+              const lat = parseFloat(data[0].lat);
+              const lon = parseFloat(data[0].lon);
+              createMap(item.id, [lat, lon], item.zoom, item.name);
             } else {
-              console.warn('Nominatim: kein Treffer für', item.address);
-              // Fallback-Koordinaten (zentriert auf Hessen / Mainz optional)
-              latlon = [50.0, 8.6];
+              console.warn('Nominatim: kein Treffer für', item.address, '- benutze Fallback-Koordinaten');
+              createMap(item.id, item.fallback, item.zoom, item.name + ' (Fallback)');
             }
-            const map = L.map(item.id, {attributionControl: false}).setView(latlon, item.zoom || 13);
-            L.tileLayer(tileUrl, {attribution}).addTo(map);
-            L.marker(latlon).addTo(map).bindPopup(item.popup || item.address).openPopup();
-            L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
           })
           .catch(err => {
             console.error('Geokodierung fehlgeschlagen für', item.address, err);
-            const fallback = [50.0, 8.6];
-            const map = L.map(item.id, {attributionControl: false}).setView(fallback, item.zoom || 13);
-            L.tileLayer(tileUrl, {attribution}).addTo(map);
-            L.marker(fallback).addTo(map).bindPopup(item.popup + ' (Fallback)').addTo(map);
-            L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
+            createMap(item.id, item.fallback, item.zoom, item.name + ' (Fallback)');
           });
+      });
+    }
+
+    // provide globally
+    window.initMaps = initMaps;
+  </script>
+
+  <!-- Theme toggle script (neu) -->
+  <script>
+    (function(){
+      const KEY = 'site-theme';
+      const btn = document.getElementById('theme-toggle');
+      const icon = btn && btn.querySelector('.icon');
+
+      function getPreferred() {
+        const stored = localStorage.getItem(KEY);
+        if (stored === 'dark' || stored === 'light') return stored;
+        // use OS preference if not set
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
 
-      // Geocode für Dreieich, Wetzlar, Mainz
-      geocodePlaces.forEach(geocodeAndCreateMap);
+      function applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+        if (btn) {
+          btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+          if (icon) icon.textContent = theme === 'dark' ? '🌙' : '🌞';
+        }
+      }
+
+      function toggleTheme() {
+        const current = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem(KEY, next);
+        applyTheme(next);
+      }
+
+      // init
+      const initial = getPreferred();
+      applyTheme(initial);
+
+      if (btn) {
+        btn.addEventListener('click', toggleTheme);
+      }
+    })();
+  </script>
+  <script>
+    // Tab switching behavior + lazy map init
+    (function(){
+      const tabs = Array.from(document.querySelectorAll('.tab'));
+      const panels = Array.from(document.querySelectorAll('.tab-panel'));
+      let mapsInitialized = false;
+
+      function showPanel(name){
+        panels.forEach(p => p.classList.toggle('active', p.id === name));
+        tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.panel === name ? 'true' : 'false'));
+
+        if(name === 'projects'){
+          if(window.initMaps && !mapsInitialized){
+            try{ window.initMaps(); }catch(e){ console.error(e); }
+            mapsInitialized = true;
+          }
+          // small timeout to ensure maps are visible, then invalidate sizes
+          setTimeout(()=>{
+            if(window._leafletMaps){
+              Object.values(window._leafletMaps).forEach(m => { try{ m.invalidateSize(); }catch(e){} });
+            }
+          }, 250);
+        }
+      }
+
+      tabs.forEach(t => {
+        t.addEventListener('click', ()=> showPanel(t.dataset.panel));
+        t.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t.click(); } });
+      });
+
+      // default (About)
+      showPanel('about');
     })();
   </script>
 </body>
