@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nila Mahler — Startseite</title>
+
+  <!-- Leaflet CSS (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <style>
+    :root{
+      --bg:#f7f8fa;
+      --card:#ffffff;
+      --text:#0b0b0c;
+      --muted:#4a4f55;
+      --accent:#0b5fff;
+      --shadow: 0 6px 18px rgba(11,11,12,0.06);
+      --radius:10px;
+      --max-width:980px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      padding:32px 20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .site{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:24px;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .brand figure{
+      margin:0;
+      width:64px;
+      height:64px;
+      overflow:hidden;
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      flex:0 0 64px;
+    }
+
+    .brand img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    h1{
+      font-size:1.25rem;
+      margin:0;
+      letter-spacing: -0.01em;
+    }
+
+    header p{
+      margin:0;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    main{
+      display:grid;
+      gap:20px;
+    }
+
+    .intro{
+      background:var(--card);
+      padding:18px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .intro figure{
+      margin:0;
+      width:140px;
+      border-radius:10px;
+      overflow:hidden;
+      flex:0 0 140px;
+    }
+
+    .intro img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .intro .text{min-width:0}
+    .intro h2{margin:0 0 6px 0;font-size:1rem}
+    .intro p{margin:0 0 8px 0;color:var(--muted)}
+
+    section{
+      background:var(--card);
+      padding:16px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    /* Table */
+    .table-wrap{
+      overflow:auto;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.95rem;
+      min-width:640px;
+    }
+    thead th{
+      text-align:left;
+      font-weight:600;
+      padding:10px 12px;
+      border-bottom:2px solid rgba(11,11,12,0.06);
+    }
+    tbody td{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(11,11,12,0.04);
+      color:var(--muted);
+    }
+    tbody tr:last-child td{border-bottom:0}
+
+    /* Gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      align-items:start;
+    }
+    .card{
+      display:flex;
+      flex-direction:column;
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), var(--card));
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:transform .16s ease, box-shadow .16s ease;
+      text-decoration:none;
+      color:inherit;
+    }
+    .card:focus, .card:hover{transform:translateY(-6px); box-shadow:0 12px 28px rgba(11,11,12,0.12)}
+    .card img{width:100%;height:140px;object-fit:cover;display:block}
+    .card .body{padding:12px}
+    .card h3{margin:0 0 6px 0;font-size:1rem}
+    .card p{margin:0;color:var(--muted);font-size:0.93rem}
+
+    /* Maps */
+    .maps-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+    .map{
+      height:260px;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#eaeef2;
+    }
+    .map + figcaption{margin-top:8px;color:var(--muted);font-size:0.9rem}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .intro{flex-direction:column;align-items:center;text-align:center}
+      .intro figure{flex:0 0 180px; width:180px;height:180px}
+      .maps-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:560px){
+      .gallery{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start}
+      .brand figure{width:56px;height:56px;flex:0 0 56px}
+      .intro figure{width:120px;height:120px}
+      body{padding:20px 14px}
+    }
+
+    /* Accessibility: focus outlines */
+    a:focus{outline:3px solid rgba(11,95,255,0.18); outline-offset:3px; border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <div class="brand">
+        <figure aria-hidden="true">
+          <img src="assets/me.jpg" alt="Profilfoto">
+        </figure>
+        <div>
+          <h1>Nila Mahler</h1>
+          <p>Geoinformatik & Vermessung · Datenvisualisierung · Kartographie</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="intro-title">
+        <figure>
+          <img src="assets/me.jpg" alt="Portraitfoto">
+        </figure>
+        <div class="text">
+          <h2 id="intro-title">Kurz über mich</h2>
+          <p>Seit Oktober 2023 studiere ich Geoinformatik und Vermessung an der Hochschule Mainz. Aktuell bin ich im 5. Semester und arbeite gern an räumlichen Daten, Karten und interaktiven Visualisierungen.</p>
+          <p>Von 2020 bis 2023 habe ich eine Ausbildung zur Vermessungstechnikerin bei TPI Vermessung absolviert. Dabei konnte ich umfangreiche Erfahrungen auf internationalen Flughäfen und großen Baustellen sammeln.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="stations-title">
+        <h2 id="stations-title" style="margin:0 0 12px 0;font-size:1rem">Stationen</h2>
+        <div class="table-wrap">
+          <table role="table" aria-label="Stationen">
+            <caption style="caption-side:top;text-align:left;padding-bottom:8px;color:var(--muted);font-size:0.9rem">Ausgewählte Stationen</caption>
+            <thead>
+              <tr>
+                <th scope="col">Jahr</th>
+                <th scope="col">Station</th>
+                <th scope="col">Ort</th>
+                <th scope="col">Stichwort</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2023–heute</td><td>Studium Geoinformatik & Vermessung</td><td>Hochschule Mainz</td><td>5. Semester</td></tr>
+              <tr><td>2020–2023</td><td>Ausbildung Vermessungstechnikerin</td><td>TPI Vermessung</td><td>Flughäfen & Großbaustellen</td></tr>
+              <tr><td>2024</td><td>Werkstudent</td><td>GeoSolutions GmbH</td><td>Frontend & Karten</td></tr>
+              <tr><td>2022</td><td>Forschungsassistenz</td><td>Institut für Geoinfo</td><td>Modellierung</td></tr>
+              <tr><td>2021</td><td>Projektarbeit</td><td>Remote</td><td>Webmapping</td></tr>
+              <tr><td>2020</td><td>Schulabschluss</td><td>Hochschule Beispiel</td><td>Grundlagen Geodaten</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Karten zuerst, dann die Galerie -->
+      <section aria-labelledby="maps-title">
+        <h2 id="maps-title" style="margin:0 0 12px 0;font-size:1rem">Karten: Langen · Dreieich · Wetzlar · Mainz</h2>
+
+        <div class="maps-grid" role="list">
+          <figure role="listitem">
+            <div id="map-langen" class="map" aria-label="Karte Langen"></div>
+            <figcaption>Langen (Hessen)</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-dreieich" class="map" aria-label="Karte Dreieich"></div>
+            <figcaption>Dreieich</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-wetzlar" class="map" aria-label="Karte Wetzlar"></div>
+            <figcaption>Wetzlar</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <div id="map-mainz" class="map" aria-label="Karte Mainz"></div>
+            <figcaption>Mainz</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section aria-labelledby="gallery-title">
+        <h2 id="gallery-title" style="margin:0 0 12px 0;font-size:1rem">Kurzprojekte / Links</h2>
+        <div class="gallery">
+          <a class="card" href="https://example.com/projekt-karte" target="_blank" rel="noopener noreferrer">
+            <img src="assets/me.jpg" alt="Projekt 1 Bild">
+            <div class="body">
+              <h3>Interaktive Karte</h3>
+              <p>Kartenvisualisierung mit Fokus auf Nutzbarkeit und Performance.</p>
+            </div>
+          </a>
+
+          <a class="card" href="https://github.com/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/me.jpg" alt="Projekt 2 Bild">
+            <div class="body">
+              <h3>Code-Repository</h3>
+              <p>Sammlung von Skripten und Tools zur Verarbeitung von Geodaten.</p>
+            </div>
+          </a>
+
+          <a class="card" href="https://example.org/report" target="_blank" rel="noopener noreferrer">
+            <img src="assets/me.jpg" alt="Projekt 3 Bild">
+            <div class="body">
+              <h3>Bericht & Analyse</h3>
+              <p>Dokumentation eines Projekts zu Datenaufbereitung und Visualisierung.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Leaflet JS (CDN) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Leaflet initialisierung — mehrere Orte, Dreieich/Wetzlar/Mainz per Nominatim geokodiert
+    (function(){
+      const fixedPlaces = {
+        'map-langen': {name: 'Langen (Hessen)', coords: [49.9911, 8.6626], zoom: 13}
+      };
+
+      const geocodePlaces = [
+        { id: 'map-dreieich', address: 'Otto-Hahn-Straße 46, Dreieich, Germany', popup: 'Dreieich — Otto‑Hahn‑Straße 46', zoom: 18 },
+        { id: 'map-wetzlar', address: 'Werner-von-Siemens-Schule, Wetzlar, Germany', popup: 'Wetzlar — Werner‑von‑Siemens‑Schule', zoom: 17 },
+        { id: 'map-mainz', address: 'Lucy-Hillebrand-Straße 2, Mainz, Germany', popup: 'Mainz — Hochschule (Lucy‑Hillebrand‑Straße 2)', zoom: 16 }
+      ];
+
+      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+      // Erstelle Karten für feste Orte
+      Object.keys(fixedPlaces).forEach(id => {
+        const cfg = fixedPlaces[id];
+        const map = L.map(id, {attributionControl: false}).setView(cfg.coords, cfg.zoom);
+        L.tileLayer(tileUrl, {attribution}).addTo(map);
+        L.marker(cfg.coords).addTo(map).bindPopup(cfg.name);
+        L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
+      });
+
+      // Utility: Geocode mit Nominatim und Map initialisieren
+      function geocodeAndCreateMap(item) {
+        const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(item.address);
+        fetch(url, { headers: { 'Accept': 'application/json' } })
+          .then(res => res.json())
+          .then(data => {
+            let latlon;
+            if (Array.isArray(data) && data.length > 0) {
+              latlon = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            } else {
+              console.warn('Nominatim: kein Treffer für', item.address);
+              // Fallback-Koordinaten (zentriert auf Hessen / Mainz optional)
+              latlon = [50.0, 8.6];
+            }
+            const map = L.map(item.id, {attributionControl: false}).setView(latlon, item.zoom || 13);
+            L.tileLayer(tileUrl, {attribution}).addTo(map);
+            L.marker(latlon).addTo(map).bindPopup(item.popup || item.address).openPopup();
+            L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
+          })
+          .catch(err => {
+            console.error('Geokodierung fehlgeschlagen für', item.address, err);
+            const fallback = [50.0, 8.6];
+            const map = L.map(item.id, {attributionControl: false}).setView(fallback, item.zoom || 13);
+            L.tileLayer(tileUrl, {attribution}).addTo(map);
+            L.marker(fallback).addTo(map).bindPopup(item.popup + ' (Fallback)').addTo(map);
+            L.control.attribution({prefix: false}).addAttribution(attribution).addTo(map);
+          });
+      }
+
+      // Geocode für Dreieich, Wetzlar, Mainz
+      geocodePlaces.forEach(geocodeAndCreateMap);
+    })();
+  </script>
+</body>
+</html>
