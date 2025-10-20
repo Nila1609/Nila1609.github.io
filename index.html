@@ -252,6 +252,16 @@
       gap:8px;
       margin-bottom:18px;
     }
+    /* Hero area (Name + Tabs) */
+    .hero{
+      background:#eaf6ff; /* hellblau */
+      padding:14px 16px;
+      border-radius:14px;
+      box-shadow: 0 8px 22px rgba(11,11,12,0.04);
+      margin-bottom:18px;
+    }
+    /* Slightly tighter header spacing when inside hero */
+    .hero header{margin-bottom:0}
     .tab{
       background:var(--card);
       color:var(--text);
@@ -311,29 +321,31 @@
 </head>
 <body>
   <div class="site">
-    <header>
-      <div class="brand">
-        <figure aria-hidden="true">
-          <img src="assets/me.jpg" alt="Profilfoto">
-        </figure>
-        <div>
-          <h1>Nila Mahler</h1>
-          <p>Geoinformatik & Vermessung · Datenvisualisierung · Kartographie</p>
-        </div>
+    <div class="hero">
+      <header>
+       <div class="brand">
+         <figure aria-hidden="true">
+           <img src="assets/me.jpg" alt="Profilfoto">
+         </figure>
+         <div>
+           <h1>Nila Mahler</h1>
+           <p>Geoinformatik & Vermessung · Datenvisualisierung · Kartographie</p>
+         </div>
+       </div>
+
+       <!-- Theme toggle button (neu) -->
+       <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Wechseln zwischen hellem und dunklem Modus" title="Hell / Nacht">
+         <span class="icon" aria-hidden="true">🌞</span>
+         <span class="label">Modus</span>
+       </button>
+      </header>
+
+      <!-- Tab controls -->
+      <div class="tabs" role="tablist" aria-label="Hauptnavigation">
+       <button class="tab" role="tab" data-panel="about" aria-selected="true">About</button>
+       <button class="tab" role="tab" data-panel="news" aria-selected="false">News</button>
+       <button class="tab" role="tab" data-panel="projects" aria-selected="false">Projects</button>
       </div>
-
-      <!-- Theme toggle button (neu) -->
-      <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Wechseln zwischen hellem und dunklem Modus" title="Hell / Nacht">
-        <span class="icon" aria-hidden="true">🌞</span>
-        <span class="label">Modus</span>
-      </button>
-    </header>
-
-    <!-- Tab controls -->
-    <div class="tabs" role="tablist" aria-label="Hauptnavigation">
-      <button class="tab" role="tab" data-panel="about" aria-selected="true">About</button>
-      <button class="tab" role="tab" data-panel="news" aria-selected="false">News</button>
-      <button class="tab" role="tab" data-panel="projects" aria-selected="false">Projects</button>
     </div>
 
     <!-- Tab panels: About (Intro + Stationen), News (Kurzprojekte/Links), Projects (Karten) -->
