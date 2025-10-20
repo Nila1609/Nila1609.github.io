@@ -296,6 +296,13 @@
 
     /* Accessibility: focus outlines */
     a:focus{outline:3px solid rgba(11,95,255,0.18); outline-offset:3px; border-radius:6px}
+
+    /* Floating contact links (bottom-right) */
+    .contact-fixed{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:1200}
+    .contact-btn{width:48px;height:48px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:var(--card);color:var(--text);text-decoration:none;box-shadow:var(--shadow);font-weight:700;font-size:0.85rem;transition:transform .12s ease,box-shadow .12s ease}
+    .contact-btn:focus{outline:3px solid rgba(11,95,255,0.18);outline-offset:3px}
+    .contact-btn:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(11,11,12,0.12)}
+    @media (max-width:560px){.contact-fixed{right:12px;bottom:12px;gap:8px}.contact-btn{width:44px;height:44px;font-size:0.8rem}}
   </style>
 </head>
 <body>
@@ -623,5 +630,20 @@
         });
     })();
   </script>
+
+  <!-- Floating contact links (bottom-right) -->
+  <div class="contact-fixed" aria-hidden="false">
+    <a class="contact-btn" href="https://tpi-vermessung.de/" target="_blank" rel="noopener noreferrer" aria-label="TPI Vermessung">
+      <span>TPI</span>
+    </a>
+
+    <a class="contact-btn" href="https://www.hs-mainz.de/studium/studiengaenge/hochschulweite-studiengaenge/angewandte-informatik-bsc/uebersicht/" target="_blank" rel="noopener noreferrer" aria-label="Hochschule Mainz">
+      <span>HS</span>
+    </a>
+
+    <a class="contact-btn" href="https://alex-2.de/schiffsposition/" target="_blank" rel="noopener noreferrer" aria-label="Schiffsposition Alex-2">
+      <span>ALEX</span>
+    </a>
+  </div>
 </body>
 </html>
