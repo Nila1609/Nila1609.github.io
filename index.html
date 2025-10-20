@@ -272,6 +272,13 @@
     .tab-panel{display:none}
     .tab-panel.active{display:block}
 
+    /* News card specific */
+    .news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .news-card{display:flex;gap:12px;background:linear-gradient(180deg, rgba(255,255,255,0.98), var(--card));padding:12px;border-radius:10px;box-shadow:var(--shadow);text-decoration:none;color:inherit}
+    .news-card img{width:120px;height:80px;object-fit:cover;border-radius:8px;flex:0 0 120px}
+    .news-card .meta{font-size:0.85rem;color:var(--muted);margin-bottom:6px}
+    @media (max-width:900px){.news-grid{grid-template-columns:1fr}.news-card img{width:100px;height:70px}}
+
     @media (max-width:900px){
       .gallery{grid-template-columns:repeat(2,1fr)}
       .intro{flex-direction:column;align-items:center;text-align:center}
@@ -358,7 +365,8 @@
       <section id="news" class="tab-panel" aria-labelledby="gallery-title">
         <!-- News: Kurzprojekte / Links (reused gallery content) -->
         <h2 id="gallery-title" style="margin:0 0 12px 0;font-size:1rem">Kurzprojekte / Links</h2>
-        <div class="gallery">
+        <div class="gallery" id="news-gallery">
+          <!-- existing static cards kept as fallback -->
           <a class="card" href="https://example.com/projekt-karte" target="_blank" rel="noopener noreferrer">
             <img src="assets/me.jpg" alt="Projekt 1 Bild">
             <div class="body">
@@ -550,6 +558,69 @@
 
       // default (About)
       showPanel('about');
+    })();
+  </script>
+
+  <script>
+    // Load news from JSON and render into #news-gallery
+    (function(){
+      const container = document.getElementById('news-gallery');
+      if(!container) return;
+      fetch('assets/news.json')
+        .then(res => {
+          if(!res.ok) throw new Error('Fehler beim Laden der News JSON');
+          return res.json();
+        })
+        .then(data => {
+          if(!Array.isArray(data) || data.length === 0) return;
+          // clear existing static gallery
+          container.innerHTML = '';
+          const grid = document.createElement('div');
+          grid.className = 'news-grid';
+
+          data.forEach(item => {
+            const a = document.createElement('a');
+            a.className = 'news-card';
+            a.href = item.link || '#';
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+
+            const img = document.createElement('img');
+            img.src = item.image || 'assets/me.jpg';
+            img.alt = item.title || '';
+
+            const body = document.createElement('div');
+            body.style.minWidth = '0';
+
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            const date = new Date(item.date);
+            meta.textContent = isNaN(date) ? (item.date || '') : date.toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            const h3 = document.createElement('h3');
+            h3.textContent = item.title || 'News';
+            h3.style.margin = '0 0 6px 0';
+            h3.style.fontSize = '1rem';
+
+            const p = document.createElement('p');
+            p.textContent = item.excerpt || '';
+            p.style.margin = '0';
+            p.style.color = 'var(--muted)';
+
+            body.appendChild(meta);
+            body.appendChild(h3);
+            body.appendChild(p);
+
+            a.appendChild(img);
+            a.appendChild(body);
+            grid.appendChild(a);
+          });
+
+          container.appendChild(grid);
+        })
+        .catch(err => {
+          console.error('News laden fehlgeschlagen', err);
+        });
     })();
   </script>
 </body>

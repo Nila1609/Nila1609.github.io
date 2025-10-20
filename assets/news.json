@@ -1,0 +1,26 @@
+[
+  {
+    "id": "n2025-10-01-map-update",
+    "title": "Neue Kartenansicht für Langen",
+    "date": "2025-10-01",
+    "image": "assets/me.jpg",
+    "excerpt": "Die Kartenansicht für Langen wurde überarbeitet und zeigt jetzt zusätzliche Punkte von Interesse.",
+    "link": "https://example.com/langen-update"
+  },
+  {
+    "id": "n2025-09-15-projects",
+    "title": "Projekt: Interaktive Webkarte",
+    "date": "2025-09-15",
+    "image": "assets/me.jpg",
+    "excerpt": "Ein kurzer Einblick in ein neues interaktives Kartenprojekt mit Fokus auf Performance und Barrierefreiheit.",
+    "link": "https://example.com/project-interactive-map"
+  },
+  {
+    "id": "n2025-08-10-research",
+    "title": "Forschungsarbeit zur Geodaten-Qualität",
+    "date": "2025-08-10",
+    "image": "assets/me.jpg",
+    "excerpt": "Vorläufige Ergebnisse zur Datenqualität in städtischen Vermessungsprojekten stehen bereit.",
+    "link": "https://example.com/research-report"
+  }
+]
