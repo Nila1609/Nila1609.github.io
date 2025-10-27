@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>LoD2 Gebaeude</title>
-    <!-- Cesium JS & CSS -->
+    <!-- Laden der benötigten Javascript und CSS-Datei von Cesium -->
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/Cesium.js"></script>
     <link href="https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
     <style>
@@ -21,26 +21,25 @@
     <div id="cesiumContainer"></div>
 
     <script>
-      // optional: set Cesium ion access token
-      // Cesium.Ion.defaultAccessToken = 'XXXX';
+      // optional: Cesium.Ion.defaultAccessToken = 'XXXX';
 
-      // initialize Cesium Viewer
-      var viewer = new Cesium.Viewer('cesiumContainer', {
+      // Initialisieren des Cesium-Viewer
+      var viewer = new Cesium.Viewer('cesiumContainer',{
         shadows: false,
         geocoder: false,
         baseLayerPicker: false
       });
 
-      // Background OSM imagery for areas outside Germany
-      var osm = new Cesium.OpenStreetMapImageryProvider({
-        url: '//a.tile.openstreetmap.org/',
+      // Hintergrundkarte für die Gebiete außerhalb von Deutschland
+      var osm= new Cesium.OpenStreetMapImageryProvider({
+        url : '//a.tile.openstreetmap.org/',
         credit: new Cesium.Credit('<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>', true)
       });
       viewer.imageryLayers.addImageryProvider(osm);
 
-      // WMS basemap (SmartMapping Deutschland)
+      // Hintergrundkarte festlegen - WMS der SmartMapping Karte
       const provider = new Cesium.WebMapServiceImageryProvider({
-        url: 'https://sgx.geodatenzentrum.de/wms_basemapde?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
+        url : 'https://sgx.geodatenzentrum.de/wms_basemapde?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities',
         layers: 'de_basemapde_web_raster_farbe',
         parameters: {
           transparent: true,
@@ -49,28 +48,31 @@
       });
       viewer.imageryLayers.addImageryProvider(provider);
 
-      // fly camera to start position
+      // Kamera auf uebergebenen Punkt zentrieren in einer bestimmten Hoehe
       viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(6.958215, 50.932767, 1500.0),
+        destination: Cesium.Cartesian3.fromDegrees(6.958215,50.932767, 1500.0),
         orientation: {
           heading: Cesium.Math.toRadians(0.0),
-          pitch: Cesium.Math.toRadians(-50.0),
-          roll: 0.0
+          pitch : Cesium.Math.toRadians(-50.0),
+          roll : 0.0
         }
       });
 
-      // load 3D-tileset (LoD2 buildings)
+      // 3D-Tileset ergaenzen, welches die LoD2-Gebaeude von der Smart-Mapping Seite laedt
       (async function(){
         try {
+          // use constructor for broad compatibility
           const tileset = new Cesium.Cesium3DTileset({
             url: 'https://sg.geodatenzentrum.de/gdz_basemapde_3d_gebaeude/lod2_4978_null.json'
           });
+
+          await tileset.readyPromise;
           viewer.scene.primitives.add(tileset);
 
-          // style the tileset
-          const cityStyle = new Cesium.Cesium3DTileStyle({
-            color: {
-              conditions: [
+          // Die definierten Flächen können individuell eingefärbt werden.
+          var cityStyle = new Cesium.Cesium3DTileStyle({
+            color : {
+              conditions : [
                 ["${surface} === 'wall'", "color('#f2f2f2')"],
                 ["${surface} === 'roof'", "color('#ff5c4d')"],
                 ["${surface} === 'bridge'", "color('#999999')"]
