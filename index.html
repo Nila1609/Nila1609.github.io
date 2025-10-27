@@ -246,6 +246,19 @@
     }
     .map + figcaption{margin-top:8px;color:var(--muted);font-size:0.9rem}
 
+    /* Viewer for external map HTML files placed in /maps */
+    .maps-folder { padding:12px; }
+    .maps-folder .maps-iframe {
+      width:100%;
+      height:560px;
+      border:0;
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      background: #fff;
+    }
+    .maps-folder .maps-list { margin:10px 0 12px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+    .maps-folder .maps-list a { background:var(--card); padding:8px 10px; border-radius:8px; box-shadow:var(--shadow); text-decoration:none; color:var(--text); font-weight:600 }
+
     /* Tabs */
     .tabs{
       display:inline-flex;
@@ -345,6 +358,7 @@
        <button class="tab" role="tab" data-panel="about" aria-selected="true">About</button>
        <button class="tab" role="tab" data-panel="news" aria-selected="false">News</button>
        <button class="tab" role="tab" data-panel="projects" aria-selected="false">Projects</button>
+       <button class="tab" role="tab" data-panel="maps-folder" aria-selected="false">Maps</button>
       </div>
     </div>
 
@@ -440,6 +454,15 @@
             <div id="map-mainz" class="map" aria-label="Karte Mainz"></div>
             <figcaption>Mainz - HS Mainz</figcaption>
           </figure>
+        </div>
+      </section>
+
+      <!-- Neue Section: Maps-Ordner Viewer -->
+      <section id="maps-folder" class="tab-panel" aria-labelledby="maps-folder-title">
+        <h2 id="maps-folder-title" style="margin:0 0 12px 0;font-size:1rem">Maps</h2>
+        <div class="maps-folder">
+          <div id="maps-list" class="maps-list">Suche nach Karten im Ordner <code>maps/</code> …</div>
+          <iframe id="maps-iframe" class="maps-iframe" title="Maps Viewer" src="" aria-hidden="true" style="display:none"></iframe>
         </div>
       </section>
     </div>
@@ -555,6 +578,59 @@
       const tabs = Array.from(document.querySelectorAll('.tab'));
       const panels = Array.from(document.querySelectorAll('.tab-panel'));
       let mapsInitialized = false;
+      let mapsFolderLoaded = false;
+
+      async function loadMapsFromFolder(){
+         if(mapsFolderLoaded) return;
+         mapsFolderLoaded = true;
+         const listEl = document.getElementById('maps-list');
+         const iframe = document.getElementById('maps-iframe');
+         if(!listEl || !iframe) return;
+
+         const candidates = [
+           'maps/index.html',
+           'maps/map.html',
+           'maps/main.html',
+           'maps/map_1_basiskarte.html',
+           'maps/map_2_punkte.html',
+           'maps/map_3_reiseroute.html',
+           'maps/map_4_flaechen_online.html'
+         ];
+
+         listEl.textContent = '';
+
+         // Try to find the first existing HTML file and also list all that exist
+         const found = [];
+         for(const url of candidates){
+           try{
+             const res = await fetch(url, { method: 'GET' });
+             if(res.ok){
+               found.push(url);
+             }
+           }catch(e){ /* ignore */ }
+         }
+
+         if(found.length === 0){
+           listEl.textContent = 'Keine Karten im Ordner "maps" gefunden. Bitte lege eine HTML-Datei in maps/ ab.';
+           return;
+         }
+
+         // create links for all found files
+         found.forEach((url, idx) => {
+           const a = document.createElement('a');
+           a.href = url;
+           a.textContent = url.split('/').pop();
+           a.target = '_blank';
+           a.rel = 'noopener noreferrer';
+           listEl.appendChild(a);
+           // set first one into iframe
+           if(idx === 0){
+             iframe.src = url;
+             iframe.style.display = 'block';
+             iframe.setAttribute('aria-hidden','false');
+           }
+         });
+       }
 
       function showPanel(name){
         panels.forEach(p => p.classList.toggle('active', p.id === name));
@@ -571,7 +647,10 @@
               Object.values(window._leafletMaps).forEach(m => { try{ m.invalidateSize(); }catch(e){} });
             }
           }, 250);
-        }
+        } else if(name === 'maps-folder'){
+           // try to load HTML maps from /maps on first open
+           try{ loadMapsFromFolder(); }catch(e){ console.error(e); }
+         }
       }
 
       tabs.forEach(t => {
