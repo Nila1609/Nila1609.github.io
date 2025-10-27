@@ -618,18 +618,26 @@
 
         // create entries for all found files with a button to load each into the iframe
         found.forEach((url, idx) => {
-          const name = url.split('/').pop();
-          const item = document.createElement('div');
-          item.style.display = 'inline-flex';
-          item.style.alignItems = 'center';
-          item.style.gap = '8px';
+          const filename = url.split('/').pop();
+          const displayNames = {
+            'cesium_lod2.html': '3D Stadtmodell LoD2',
+            'map_1_basiskarte.html': 'basiskarte',
+            'map_2_punkte.html': 'Lieblingsorte',
+            'map_3_reiseroute.html': 'Reiseroute',
+            'map_4_flaechen_online.html': 'Bereiste Länder'
+          };
+          const name = displayNames[filename] || filename;
+           const item = document.createElement('div');
+           item.style.display = 'inline-flex';
+           item.style.alignItems = 'center';
+           item.style.gap = '8px';
 
-          const a = document.createElement('a');
-          a.href = url;
-          a.textContent = name;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.title = 'In neuem Tab öffnen';
+           const a = document.createElement('a');
+           a.href = url;
+           a.textContent = name;
+           a.target = '_blank';
+           a.rel = 'noopener noreferrer';
+           a.title = 'In neuem Tab öffnen';
 
           const btn = document.createElement('button');
           btn.type = 'button';
