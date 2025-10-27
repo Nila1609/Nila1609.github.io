@@ -615,21 +615,42 @@
            return;
          }
 
-         // create links for all found files
-         found.forEach((url, idx) => {
-           const a = document.createElement('a');
-           a.href = url;
-           a.textContent = url.split('/').pop();
-           a.target = '_blank';
-           a.rel = 'noopener noreferrer';
-           listEl.appendChild(a);
-           // set first one into iframe
-           if(idx === 0){
-             iframe.src = url;
-             iframe.style.display = 'block';
-             iframe.setAttribute('aria-hidden','false');
-           }
-         });
+        // create entries for all found files with a button to load each into the iframe
+        found.forEach((url, idx) => {
+          const name = url.split('/').pop();
+          const item = document.createElement('div');
+          item.style.display = 'inline-flex';
+          item.style.alignItems = 'center';
+          item.style.gap = '8px';
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.textContent = name;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.title = 'In neuem Tab öffnen';
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = 'Anzeigen';
+          btn.style.cursor = 'pointer';
+          btn.addEventListener('click', () => {
+            iframe.src = url;
+            iframe.style.display = 'block';
+            iframe.setAttribute('aria-hidden','false');
+          });
+
+          item.appendChild(a);
+          item.appendChild(btn);
+          listEl.appendChild(item);
+
+          // load the first found map into the iframe by default
+          if(idx === 0){
+            iframe.src = url;
+            iframe.style.display = 'block';
+            iframe.setAttribute('aria-hidden','false');
+          }
+        });
        }
 
       function showPanel(name){

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_df578cc123e04002bf91aa7e972e5086 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_df578cc123e04002bf91aa7e972e5086" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_df578cc123e04002bf91aa7e972e5086 = L.map(
+                "map_df578cc123e04002bf91aa7e972e5086",
+                {
+                    center: [40.0, 45.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 3,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_31c0f2c4174197cb55eede6f91bdddb7 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_31c0f2c4174197cb55eede6f91bdddb7.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            var tile_layer_8c055160d485a85e7e713b0b4e817d79 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_8c055160d485a85e7e713b0b4e817d79.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            var marker_76989070d66198bfb8f334f2a6c0adae = L.marker(
+                [49.9717, 8.6637],
+                {
+}
+            ).addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            var icon_dfd3884ec3a39b46ef1846257ba9afbe = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "church",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7cbe7f33d50c22c77629ef897a3433e7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a687f9470e6470ee137aa7a1e315a501 = $(`<div id="html_a687f9470e6470ee137aa7a1e315a501" style="width: 100.0%; height: 100.0%;">Stadtkirche Langen</div>`)[0];
+                popup_7cbe7f33d50c22c77629ef897a3433e7.setContent(html_a687f9470e6470ee137aa7a1e315a501);
+            
+        
+
+        marker_76989070d66198bfb8f334f2a6c0adae.bindPopup(popup_7cbe7f33d50c22c77629ef897a3433e7)
+        ;
+
+        
+    
+    
+            marker_76989070d66198bfb8f334f2a6c0adae.bindTooltip(
+                `<div>
+                     Stadtkirche Langen (Hessen)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_76989070d66198bfb8f334f2a6c0adae.setIcon(icon_dfd3884ec3a39b46ef1846257ba9afbe);
+            
+    
+            var marker_91b37d60574c7b3807f2cc5014553f76 = L.marker(
+                [53.5402, 8.5764],
+                {
+}
+            ).addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            var icon_ca8cefa541f7dedd766052b967bd5ed5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7ac9164f6e72fbff139091805d5996d2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_74da858a92f6f69e4c12c7bc5d8a3795 = $(`<div id="html_74da858a92f6f69e4c12c7bc5d8a3795" style="width: 100.0%; height: 100.0%;">Heimathafen der Alexander von Humboldt 2</div>`)[0];
+                popup_7ac9164f6e72fbff139091805d5996d2.setContent(html_74da858a92f6f69e4c12c7bc5d8a3795);
+            
+        
+
+        marker_91b37d60574c7b3807f2cc5014553f76.bindPopup(popup_7ac9164f6e72fbff139091805d5996d2)
+        ;
+
+        
+    
+    
+            marker_91b37d60574c7b3807f2cc5014553f76.bindTooltip(
+                `<div>
+                     Neuer Hafen Bremerhaven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_91b37d60574c7b3807f2cc5014553f76.setIcon(icon_ca8cefa541f7dedd766052b967bd5ed5);
+            
+    
+            var marker_88d7876a3e39acfeaec4b980c55b6c8e = L.marker(
+                [45.6289, 12.9934],
+                {
+}
+            ).addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            var icon_b890e9de88ad663dc06c541eb644b82c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "campground",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_218d788c00a25f4537c43aa37deeba77 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f5717b51392c03aed72f23c67e7399cd = $(`<div id="html_f5717b51392c03aed72f23c67e7399cd" style="width: 100.0%; height: 100.0%;">Campingplatz Capalonga</div>`)[0];
+                popup_218d788c00a25f4537c43aa37deeba77.setContent(html_f5717b51392c03aed72f23c67e7399cd);
+            
+        
+
+        marker_88d7876a3e39acfeaec4b980c55b6c8e.bindPopup(popup_218d788c00a25f4537c43aa37deeba77)
+        ;
+
+        
+    
+    
+            marker_88d7876a3e39acfeaec4b980c55b6c8e.bindTooltip(
+                `<div>
+                     Campingplatz Capalonga
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_88d7876a3e39acfeaec4b980c55b6c8e.setIcon(icon_b890e9de88ad663dc06c541eb644b82c);
+            
+    
+            map_df578cc123e04002bf91aa7e972e5086.fitBounds(
+                [[49.9717, 8.6637], [53.5402, 8.5764], [45.6289, 12.9934]],
+                {"padding": [20, 20]}
+            );
+        
+    
+            var layer_control_facf6f7ed397d793ea5da7f81ab351c8_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_31c0f2c4174197cb55eede6f91bdddb7,
+                    "Carto Light" : tile_layer_8c055160d485a85e7e713b0b4e817d79,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_facf6f7ed397d793ea5da7f81ab351c8 = L.control.layers(
+                layer_control_facf6f7ed397d793ea5da7f81ab351c8_layers.base_layers,
+                layer_control_facf6f7ed397d793ea5da7f81ab351c8_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_df578cc123e04002bf91aa7e972e5086);
+
+        
+    
+            tile_layer_31c0f2c4174197cb55eede6f91bdddb7.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            tile_layer_8c055160d485a85e7e713b0b4e817d79.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+                marker_76989070d66198bfb8f334f2a6c0adae.setIcon(icon_dfd3884ec3a39b46ef1846257ba9afbe);
+            
+    
+                marker_91b37d60574c7b3807f2cc5014553f76.setIcon(icon_ca8cefa541f7dedd766052b967bd5ed5);
+            
+    
+                marker_88d7876a3e39acfeaec4b980c55b6c8e.setIcon(icon_b890e9de88ad663dc06c541eb644b82c);
+            
+    
+            tile_layer_31c0f2c4174197cb55eede6f91bdddb7.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+            tile_layer_8c055160d485a85e7e713b0b4e817d79.addTo(map_df578cc123e04002bf91aa7e972e5086);
+        
+    
+                marker_76989070d66198bfb8f334f2a6c0adae.setIcon(icon_dfd3884ec3a39b46ef1846257ba9afbe);
+            
+    
+                marker_91b37d60574c7b3807f2cc5014553f76.setIcon(icon_ca8cefa541f7dedd766052b967bd5ed5);
+            
+    
+                marker_88d7876a3e39acfeaec4b980c55b6c8e.setIcon(icon_b890e9de88ad663dc06c541eb644b82c);
+            
+</script>
+</html>
